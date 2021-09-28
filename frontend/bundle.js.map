@@ -1,0 +1,1 @@
+{"version":3,"file":"bundle.js","mappings":";;;;;AAAA,IAAIA,SAASC,IAAb,C","sources":["webpack://chatproj/./frontend/src/app.jsx"],"sourcesContent":["let socket = io();"],"names":["socket","io"],"sourceRoot":""}
