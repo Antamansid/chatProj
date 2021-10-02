@@ -1,6 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 
 import { ioReducers } from '../reducers/ioReducers.jsx';
+import { textEditReducers } from '../reducers/textEditReducers.jsx';
 
 import logger from 'redux-logger';
 
@@ -10,7 +11,8 @@ const middleware = applyMiddleware(promiseMiddlware(), logger());
 
 //Комбинем редюсеры
 const reducers = combineReducers({
-  ioContainer: ioReducers
+  ioContainer: ioReducers,
+  text: textEditReducers
 });
 
 const store = createStore(reducers, middleware);
