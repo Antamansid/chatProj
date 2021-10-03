@@ -8,4 +8,17 @@ export default class textEditActions{
     }
     return result;
   }
+  static changeMsg(msg){
+    let result = {
+      type: textEditConstants.MSG_EDIT,
+      payload: msg
+    }
+    return result;
+  }
+  static clearMsgInput(){
+    let result = {
+      type: textEditConstants.CLEAR_MSG_INPUT
+    }
+    return result;
+  }
 }

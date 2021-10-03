@@ -28,8 +28,8 @@ export default class ioActions{
     }
     return result;
   }
-  static sendMsg(data){
-    socket.emit('sendMsg', {nickName, msg:'Hello everyOne!'});
+  static sendMsg(msg){
+    socket.emit('sendMsg', {nickName, msg:msg});
     let result = {
       type: ioConstants.SEND_MSG
     }

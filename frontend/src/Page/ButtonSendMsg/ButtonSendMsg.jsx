@@ -5,12 +5,15 @@ import store from '../../store/store.jsx';
 
 import ioActions from '../../actions/ioActions.jsx'
 
+import textEditActions from '../../actions/textEditActions.jsx'
+
 class ButtonSendMsg extends React.Component {
     constructor(props){
         super(props);
     }
     sendMsg(){
-      this.props.dispatch(ioActions.sendMsg());
+      this.props.dispatch(ioActions.sendMsg(this.props.state.msg));
+      this.props.dispatch(textEditActions.clearMsgInput());
       }
     render() {
         return <div>
@@ -21,7 +24,7 @@ class ButtonSendMsg extends React.Component {
 
 function mapStateToProps(store) {
   return {
-      nickName: store.text.ButtonConnectToServer_State.nickName
+      state: store.text.ButtonSendMsg_State
   }
 }
   

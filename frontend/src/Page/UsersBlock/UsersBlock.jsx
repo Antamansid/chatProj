@@ -10,15 +10,18 @@ class UsersBlock extends React.Component {
         super(props);
     }
     render() {
-        return <div>
-          <p>Блок с юзерами</p>
-        </div>;
+      let users = this.props.state.users.map((user, index)=>{
+        return <p key = {index}>{user}</p>
+      })
+      return <div>
+        {users}
+      </div>;
     }
 }
 
 function mapStateToProps(store) {
   return {
-      nickName: store.text.ButtonConnectToServer_State.nickName
+    state: store.ioContainer.UsersBlock_State
   }
 }
   

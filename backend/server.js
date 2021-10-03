@@ -40,11 +40,10 @@ io.on('connection', function(socket) {
   //добавляем никнэйм в юзеров комнаты
   rooms[room].push(nickName);
   //извещаем всех о том, что человечек присоединился к комнате
-  io.sockets.in(room).emit('message', {msg: nickName+" connected to " + socket.handshake.query.room, roomPpl:rooms[room]});
+  io.sockets.in(room).emit('message', {msg: "["+(new Date).toLocaleTimeString()+"] "+nickName+" присоединился " + room, roomPpl:rooms[room]});
   //Обработка сообщений
   socket.on('sendMsg', function(data){
-    let time = (new Date).toLocaleTimeString();
-    io.sockets.in(room).emit('haveMsg', "["+time+"] "+nickName+": " + data.msg + "in room " + room);
+    io.sockets.in(room).emit('haveMsg', "["+(new Date).toLocaleTimeString()+"] "+nickName+": " + data.msg);
   })
   //Переход из комнаты в комнату по ссылке
   socket.on('goToRoom', function(data){
@@ -52,6 +51,8 @@ io.on('connection', function(socket) {
     if(!Array.isArray(rooms[room])){
       rooms[room]=[];
     }
+    //Сообщаем, что юзер комнату покидает
+    io.sockets.in(room).emit('message', {msg: "["+(new Date).toLocaleTimeString()+"] "+nickName+" покидает " + room, roomPpl:rooms[room]});
     //ищем в нем ник удаляемого человека (переходящего в другу комнату)
     let delNickPos = rooms[room].indexOf(nickName)
     //вообще тут надо проверить на -1
@@ -68,6 +69,8 @@ io.on('connection', function(socket) {
     socket.join(room);
     rooms[room].push(nickName);
     io.sockets.in(room).emit('roomMeet', {roomPpl:rooms[room]});
+    //Сообщаем, что юзер зашел в комнату
+    io.sockets.in(room).emit('message', {msg: "["+(new Date).toLocaleTimeString()+"] "+nickName+" присоединился " + room, roomPpl:rooms[room]});
   })
   socket.on('disconnect', function () {
     //проверяем создан ли массив для комнаты

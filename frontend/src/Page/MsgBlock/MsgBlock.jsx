@@ -10,15 +10,18 @@ class MsgBlock extends React.Component {
         super(props);
     }
     render() {
-        return <div>
-          <p>Блок сообщений</p>
-        </div>;
+      let msgs = this.props.state.msgs.map((msg, index)=>{
+        return <p key = {index}>{msg}</p>
+      })
+      return <div>
+        {msgs}
+      </div>;
     }
 }
 
 function mapStateToProps(store) {
   return {
-      nickName: store.text.ButtonConnectToServer_State.nickName
+      state: store.ioContainer.MsgBlock_State
   }
 }
   

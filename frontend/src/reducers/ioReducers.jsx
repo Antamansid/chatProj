@@ -1,33 +1,60 @@
 import * as ioConstants from "../constants/ioConstants.jsx";
 
-export function ioReducers(state = {Page_State:{connected:false}}, action){
+export function ioReducers(state = {
+  Page_State:{connected:false},
+  MsgBlock_State:{
+    msgs:[]
+  },
+  UsersBlock_State:{
+    users:[]
+  }
+}, action){
   switch (action.type){
     case ioConstants.CONNECT_TO_CHAT:{
-      state = Object.assign({}, state, {Page_State:{connected:true}});
+      state = Object.assign({}, state, {
+        Page_State:{connected:true}
+      });
       break;
     };
     case ioConstants.MESSAGE_FROM_SERVER:{
-      console.log(action.payload);
+      let msgs = state.MsgBlock_State.msgs;
+      let users = action.payload.roomPpl;
+      msgs.push(action.payload.msg)
+      state = Object.assign({}, state, {
+        MsgBlock_State:{msgs:msgs},
+        UsersBlock_State:{users:users}
+      });
       break;
     };
     case ioConstants.ROOM_MEET:{
-      console.log(action.payload);
+      let users = action.payload.roomPpl;
+      state = Object.assign({}, state, {
+        UsersBlock_State:{users:users}
+      });
       break;
     };
     case ioConstants.ROOM_LEAVE:{
-      console.log(action.payload);
+      let users = action.payload.roomPpl;
+      state = Object.assign({}, state, {
+        UsersBlock_State:{users:users}
+      });
       break;
     };
     case ioConstants.MSG_INCOME:{
-      console.log(action.payload);
+      let msgs = state.MsgBlock_State.msgs;
+      msgs.push(action.payload)
+      state = Object.assign({}, state, {
+        MsgBlock_State:{msgs:msgs}
+      });
       break;
     };
     case ioConstants.SEND_MSG:{
-      console.log(action.payload);
       break;
     };
     case ioConstants.GO_TO_ROOM:{
-      console.log(action.payload);
+      state = Object.assign({}, state, {
+        MsgBlock_State:{msgs:[]}
+      });
       break;
     };
   }

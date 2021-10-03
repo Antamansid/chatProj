@@ -120,6 +120,10 @@ var _ioActions = __webpack_require__(/*! ../../actions/ioActions.jsx */ "./front
 
 var _ioActions2 = _interopRequireDefault(_ioActions);
 
+var _textEditActions = __webpack_require__(/*! ../../actions/textEditActions.jsx */ "./frontend/src/actions/textEditActions.jsx");
+
+var _textEditActions2 = _interopRequireDefault(_textEditActions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -140,7 +144,8 @@ var ButtonSendMsg = function (_React$Component) {
     _createClass(ButtonSendMsg, [{
         key: "sendMsg",
         value: function sendMsg() {
-            this.props.dispatch(_ioActions2.default.sendMsg());
+            this.props.dispatch(_ioActions2.default.sendMsg(this.props.state.msg));
+            this.props.dispatch(_textEditActions2.default.clearMsgInput());
         }
     }, {
         key: "render",
@@ -162,7 +167,7 @@ var ButtonSendMsg = function (_React$Component) {
 
 function mapStateToProps(store) {
     return {
-        nickName: store.text.ButtonConnectToServer_State.nickName
+        state: store.text.ButtonSendMsg_State
     };
 }
 
@@ -296,7 +301,7 @@ exports["default"] = Hint;
 
 
 Object.defineProperty(exports, "__esModule", ({
-    value: true
+  value: true
 }));
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -324,36 +329,39 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var MsgBlock = function (_React$Component) {
-    _inherits(MsgBlock, _React$Component);
+  _inherits(MsgBlock, _React$Component);
 
-    function MsgBlock(props) {
-        _classCallCheck(this, MsgBlock);
+  function MsgBlock(props) {
+    _classCallCheck(this, MsgBlock);
 
-        return _possibleConstructorReturn(this, (MsgBlock.__proto__ || Object.getPrototypeOf(MsgBlock)).call(this, props));
+    return _possibleConstructorReturn(this, (MsgBlock.__proto__ || Object.getPrototypeOf(MsgBlock)).call(this, props));
+  }
+
+  _createClass(MsgBlock, [{
+    key: "render",
+    value: function render() {
+      var msgs = this.props.state.msgs.map(function (msg, index) {
+        return _react2.default.createElement(
+          "p",
+          { key: index },
+          msg
+        );
+      });
+      return _react2.default.createElement(
+        "div",
+        null,
+        msgs
+      );
     }
+  }]);
 
-    _createClass(MsgBlock, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                null,
-                _react2.default.createElement(
-                    "p",
-                    null,
-                    "\u0411\u043B\u043E\u043A \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439"
-                )
-            );
-        }
-    }]);
-
-    return MsgBlock;
+  return MsgBlock;
 }(_react2.default.Component);
 
 function mapStateToProps(store) {
-    return {
-        nickName: store.text.ButtonConnectToServer_State.nickName
-    };
+  return {
+    state: store.ioContainer.MsgBlock_State
+  };
 }
 
 exports["default"] = (0, _reactRedux.connect)(mapStateToProps)(MsgBlock);
@@ -385,9 +393,9 @@ var _store = __webpack_require__(/*! ../../store/store.jsx */ "./frontend/src/st
 
 var _store2 = _interopRequireDefault(_store);
 
-var _ioActions = __webpack_require__(/*! ../../actions/ioActions.jsx */ "./frontend/src/actions/ioActions.jsx");
+var _textEditActions = __webpack_require__(/*! ../../actions/textEditActions.jsx */ "./frontend/src/actions/textEditActions.jsx");
 
-var _ioActions2 = _interopRequireDefault(_ioActions);
+var _textEditActions2 = _interopRequireDefault(_textEditActions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -407,12 +415,20 @@ var MsgInput = function (_React$Component) {
     }
 
     _createClass(MsgInput, [{
+        key: "changeMsg",
+        value: function changeMsg(event) {
+            this.props.dispatch(_textEditActions2.default.changeMsg(event.currentTarget.value));
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 null,
-                _react2.default.createElement("input", { type: "text", placeholder: "\u0421\u044E\u0434\u0430 \u0442\u0435\u043A\u0441\u0442 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F" })
+                _react2.default.createElement("input", { type: "text",
+                    placeholder: "\u0421\u044E\u0434\u0430 \u0442\u0435\u043A\u0441\u0442 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F",
+                    onChange: this.changeMsg.bind(this),
+                    value: this.props.state.msg || '' })
             );
         }
     }]);
@@ -422,7 +438,7 @@ var MsgInput = function (_React$Component) {
 
 function mapStateToProps(store) {
     return {
-        nickName: store.text.ButtonConnectToServer_State.nickName
+        state: store.text.MsgInput_State
     };
 }
 
@@ -603,11 +619,11 @@ var Page = function (_React$Component) {
         page = _react2.default.createElement(
           "div",
           null,
-          _react2.default.createElement(_MsgBlock2.default, null),
-          _react2.default.createElement(_UsersBlock2.default, null),
-          _react2.default.createElement(_MsgInput2.default, null),
           _react2.default.createElement(_RoomsBlock2.default, null),
-          _react2.default.createElement(_ButtonSendMsg2.default, null)
+          _react2.default.createElement(_MsgBlock2.default, null),
+          _react2.default.createElement(_MsgInput2.default, null),
+          _react2.default.createElement(_ButtonSendMsg2.default, null),
+          _react2.default.createElement(_UsersBlock2.default, null)
         );
       } else {
         page = _react2.default.createElement(
@@ -826,7 +842,7 @@ exports["default"] = (0, _reactRedux.connect)(mapStateToProps)(RoomsBlock);
 
 
 Object.defineProperty(exports, "__esModule", ({
-    value: true
+  value: true
 }));
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -854,36 +870,39 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var UsersBlock = function (_React$Component) {
-    _inherits(UsersBlock, _React$Component);
+  _inherits(UsersBlock, _React$Component);
 
-    function UsersBlock(props) {
-        _classCallCheck(this, UsersBlock);
+  function UsersBlock(props) {
+    _classCallCheck(this, UsersBlock);
 
-        return _possibleConstructorReturn(this, (UsersBlock.__proto__ || Object.getPrototypeOf(UsersBlock)).call(this, props));
+    return _possibleConstructorReturn(this, (UsersBlock.__proto__ || Object.getPrototypeOf(UsersBlock)).call(this, props));
+  }
+
+  _createClass(UsersBlock, [{
+    key: "render",
+    value: function render() {
+      var users = this.props.state.users.map(function (user, index) {
+        return _react2.default.createElement(
+          "p",
+          { key: index },
+          user
+        );
+      });
+      return _react2.default.createElement(
+        "div",
+        null,
+        users
+      );
     }
+  }]);
 
-    _createClass(UsersBlock, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                null,
-                _react2.default.createElement(
-                    "p",
-                    null,
-                    "\u0411\u043B\u043E\u043A \u0441 \u044E\u0437\u0435\u0440\u0430\u043C\u0438"
-                )
-            );
-        }
-    }]);
-
-    return UsersBlock;
+  return UsersBlock;
 }(_react2.default.Component);
 
 function mapStateToProps(store) {
-    return {
-        nickName: store.text.ButtonConnectToServer_State.nickName
-    };
+  return {
+    state: store.ioContainer.UsersBlock_State
+  };
 }
 
 exports["default"] = (0, _reactRedux.connect)(mapStateToProps)(UsersBlock);
@@ -959,8 +978,8 @@ var ioActions = function () {
     }
   }, {
     key: "sendMsg",
-    value: function sendMsg(data) {
-      socket.emit('sendMsg', { nickName: nickName, msg: 'Hello everyOne!' });
+    value: function sendMsg(msg) {
+      socket.emit('sendMsg', { nickName: nickName, msg: msg });
       var result = {
         type: ioConstants.SEND_MSG
       };
@@ -1050,6 +1069,23 @@ var textEditActions = function () {
       };
       return result;
     }
+  }, {
+    key: "changeMsg",
+    value: function changeMsg(msg) {
+      var result = {
+        type: textEditConstants.MSG_EDIT,
+        payload: msg
+      };
+      return result;
+    }
+  }, {
+    key: "clearMsgInput",
+    value: function clearMsgInput() {
+      var result = {
+        type: textEditConstants.CLEAR_MSG_INPUT
+      };
+      return result;
+    }
   }]);
 
   return textEditActions;
@@ -1101,6 +1137,10 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 var NICKNAME_EDIT = exports.NICKNAME_EDIT = 'NICKNAME_EDIT';
 
+var MSG_EDIT = exports.MSG_EDIT = 'MSG_EDIT';
+
+var CLEAR_MSG_INPUT = exports.CLEAR_MSG_INPUT = 'CLEAR_MSG_INPUT';
+
 /***/ }),
 
 /***/ "./frontend/src/reducers/ioReducers.jsx":
@@ -1124,32 +1164,62 @@ var ioConstants = _interopRequireWildcard(_ioConstants);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function ioReducers() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { Page_State: { connected: false } };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    Page_State: { connected: false },
+    MsgBlock_State: {
+      msgs: []
+    },
+    UsersBlock_State: {
+      users: []
+    }
+  };
   var action = arguments[1];
 
   switch (action.type) {
     case ioConstants.CONNECT_TO_CHAT:
       {
-        state = Object.assign({}, state, { Page_State: { connected: true } });
+        state = Object.assign({}, state, {
+          Page_State: { connected: true }
+        });
         break;
       };
     case ioConstants.MESSAGE_FROM_SERVER:
       {
+        var msgs = state.MsgBlock_State.msgs;
+        var users = action.payload.roomPpl;
+        msgs.push(action.payload.msg);
+        state = Object.assign({}, state, {
+          MsgBlock_State: { msgs: msgs },
+          UsersBlock_State: { users: users }
+        });
         console.log(action.payload);
         break;
       };
     case ioConstants.ROOM_MEET:
       {
+        var _users = action.payload.roomPpl;
+        state = Object.assign({}, state, {
+          UsersBlock_State: { users: _users }
+        });
         console.log(action.payload);
         break;
       };
     case ioConstants.ROOM_LEAVE:
       {
+        var _users2 = action.payload.roomPpl;
+        state = Object.assign({}, state, {
+          UsersBlock_State: { users: _users2 }
+        });
         console.log(action.payload);
         break;
       };
     case ioConstants.MSG_INCOME:
       {
+        var _msgs = state.MsgBlock_State.msgs;
+        _msgs.push(action.payload);
+        state = Object.assign({}, state, {
+          MsgBlock_State: { msgs: _msgs }
+        });
         console.log(action.payload);
         break;
       };
@@ -1160,6 +1230,9 @@ function ioReducers() {
       };
     case ioConstants.GO_TO_ROOM:
       {
+        state = Object.assign({}, state, {
+          MsgBlock_State: { msgs: [] }
+        });
         console.log(action.payload);
         break;
       };
@@ -1192,7 +1265,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function textEditReducers() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
     NickName_State: { nickName: "" },
-    ButtonConnectToServer_State: { nickName: "" }
+    ButtonConnectToServer_State: { nickName: "" },
+    MsgInput_State: { msg: "" },
+    ButtonSendMsg_State: { msg: "" }
   };
   var action = arguments[1];
 
@@ -1202,6 +1277,22 @@ function textEditReducers() {
         state = Object.assign({}, state, {
           NickName_State: { nickName: action.payload },
           ButtonConnectToServer_State: { nickName: action.payload }
+        });
+        break;
+      };
+    case textEditConstants.MSG_EDIT:
+      {
+        state = Object.assign({}, state, {
+          MsgInput_State: { msg: action.payload },
+          ButtonSendMsg_State: { msg: action.payload }
+        });
+        break;
+      }
+    case textEditConstants.CLEAR_MSG_INPUT:
+      {
+        state = Object.assign({}, state, {
+          MsgInput_State: { msg: "" },
+          ButtonSendMsg_State: { msg: "" }
         });
         break;
       }
