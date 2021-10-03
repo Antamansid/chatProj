@@ -20,37 +20,23 @@ class Page extends React.Component{
   }
   connectToGuesRoom(){
     let nickName = this.props.nickName;
-    console.log(window.location.href);
+    //Обрабатываем текущий урл
+    //если он содержит комнату -сразу коннектимся в нее
     let urlPage = new URL(window.location.href);
     let ur = new URLSearchParams(urlPage.search);
     if(ur.get('roomId')){
       room = ur.get('roomId');
     }
-    console.log(ur.get('roomId'));
-    socket = io('http://localhost:80', {query:{room, nickName}});
-    //socket.emit('sendNickName', nickName);
-    socket.on('message', function(data){
-      console.log(data.msg);
-      console.log(data.roomPpl);
-    })
-    socket.on('roomMeet', function(data){
-      console.log(data);
-    })
-    socket.on('roomLeave', function(data){
-      console.log(data);
-    });
-    socket.on('haveMsg', function(data){
-      console.log(data);
-    })
-    this.props.dispatch(ioActions.connectToChat());
+    this.props.dispatch(ioActions.connectToChat({room, nickName}));
   }
   sendMsg(){
-    socket.emit('sendMsg', {nickName: this.props.nickName, msg:'Hello everyOne!'});
+    this.props.dispatch(ioActions.sendMsg());
     }
   doWithoutGotoLink(event){
     let urlPage = new URL(event.currentTarget.href);
     let ur = new URLSearchParams(urlPage.search);
-    socket.emit('goToRoom', {room: ur.get('roomId'), nickName: this.props.nickName});
+    this.props.dispatch(ioActions.goToRoom(ur.get('roomId')))
+    //socket.emit('goToRoom', {room: ur.get('roomId'), nickName: this.props.nickName});
     //На чем я погорел на собеседовании =///
     event.preventDefault();  
     return false;

@@ -68,41 +68,27 @@ var Page = function (_React$Component) {
     key: "connectToGuesRoom",
     value: function connectToGuesRoom() {
       var nickName = this.props.nickName;
-      console.log(window.location.href);
+      //Обрабатываем текущий урл
+      //если он содержит комнату -сразу коннектимся в нее
       var urlPage = new URL(window.location.href);
       var ur = new URLSearchParams(urlPage.search);
       if (ur.get('roomId')) {
         room = ur.get('roomId');
       }
-      console.log(ur.get('roomId'));
-      socket = (0, _socket2.default)('http://localhost:80', { query: { room: room, nickName: nickName } });
-      //socket.emit('sendNickName', nickName);
-      socket.on('message', function (data) {
-        console.log(data.msg);
-        console.log(data.roomPpl);
-      });
-      socket.on('roomMeet', function (data) {
-        console.log(data);
-      });
-      socket.on('roomLeave', function (data) {
-        console.log(data);
-      });
-      socket.on('haveMsg', function (data) {
-        console.log(data);
-      });
-      this.props.dispatch(_ioActions2.default.connectToChat());
+      this.props.dispatch(_ioActions2.default.connectToChat({ room: room, nickName: nickName }));
     }
   }, {
     key: "sendMsg",
     value: function sendMsg() {
-      socket.emit('sendMsg', { nickName: this.props.nickName, msg: 'Hello everyOne!' });
+      this.props.dispatch(_ioActions2.default.sendMsg());
     }
   }, {
     key: "doWithoutGotoLink",
     value: function doWithoutGotoLink(event) {
       var urlPage = new URL(event.currentTarget.href);
       var ur = new URLSearchParams(urlPage.search);
-      socket.emit('goToRoom', { room: ur.get('roomId'), nickName: this.props.nickName });
+      this.props.dispatch(_ioActions2.default.goToRoom(ur.get('roomId')));
+      //socket.emit('goToRoom', {room: ur.get('roomId'), nickName: this.props.nickName});
       //На чем я погорел на собеседовании =///
       event.preventDefault();
       return false;
@@ -237,11 +223,22 @@ var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _store = __webpack_require__(/*! ../store/store.jsx */ "./frontend/src/store/store.jsx");
+
+var _store2 = _interopRequireDefault(_store);
+
+var _socket = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/build/index.js");
+
+var _socket2 = _interopRequireDefault(_socket);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var socket = void 0;
+var nickName = void 0;
 
 var ioActions = function () {
   function ioActions() {
@@ -250,10 +247,41 @@ var ioActions = function () {
 
   _createClass(ioActions, null, [{
     key: "connectToChat",
-    value: function connectToChat() {
-      //let backData = axios.post('http://localhost/', nickName)
+    value: function connectToChat(data) {
+      nickName = data.nickName;
+      socket = (0, _socket2.default)('http://localhost:80', { query: data });
+      socket.on('message', function (data) {
+        _store2.default.dispatch(messageFromServer(data));
+      });
+      socket.on('roomMeet', function (data) {
+        _store2.default.dispatch(roomMeet(data));
+      });
+      socket.on('roomLeave', function (data) {
+        _store2.default.dispatch(roomLeave(data));
+      });
+      socket.on('haveMsg', function (data) {
+        _store2.default.dispatch(msgIncome(data));
+      });
       var result = {
         type: ioConstants.CONNECT_TO_CHAT
+      };
+      return result;
+    }
+  }, {
+    key: "sendMsg",
+    value: function sendMsg(data) {
+      socket.emit('sendMsg', { nickName: nickName, msg: 'Hello everyOne!' });
+      var result = {
+        type: ioConstants.SEND_MSG
+      };
+      return result;
+    }
+  }, {
+    key: "goToRoom",
+    value: function goToRoom(room) {
+      socket.emit('goToRoom', { room: room, nickName: nickName });
+      var result = {
+        type: ioConstants.GO_TO_ROOM
       };
       return result;
     }
@@ -263,6 +291,35 @@ var ioActions = function () {
 }();
 
 exports["default"] = ioActions;
+
+var messageFromServer = function messageFromServer(data) {
+  var result = {
+    type: ioConstants.MESSAGE_FROM_SERVER,
+    payload: data
+  };
+  return result;
+};
+var roomMeet = function roomMeet(data) {
+  var result = {
+    type: ioConstants.ROOM_MEET,
+    payload: data
+  };
+  return result;
+};
+var roomLeave = function roomLeave(data) {
+  var result = {
+    type: ioConstants.ROOM_LEAVE,
+    payload: data
+  };
+  return result;
+};
+var msgIncome = function msgIncome(data) {
+  var result = {
+    type: ioConstants.MSG_INCOME,
+    payload: data
+  };
+  return result;
+};
 
 /***/ }),
 
@@ -325,9 +382,18 @@ Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 var CONNECT_TO_CHAT = exports.CONNECT_TO_CHAT = 'CONNECT_TO_CHAT';
-var CONNECT_TO_CHAT_PENDING = exports.CONNECT_TO_CHAT_PENDING = 'CONNECT_TO_CHAT_PENDING';
-var CONNECT_TO_CHAT_FULFILLED = exports.CONNECT_TO_CHAT_FULFILLED = 'CONNECT_TO_CHAT_FULFILLED';
-var CONNECT_TO_CHAT_REJECTED = exports.CONNECT_TO_CHAT_REJECTED = 'CONNECT_TO_CHAT_REJECTED';
+
+var MESSAGE_FROM_SERVER = exports.MESSAGE_FROM_SERVER = 'MESSAGE_FROM_SERVER';
+
+var ROOM_MEET = exports.ROOM_MEET = 'ROOM_MEET';
+
+var ROOM_LEAVE = exports.ROOM_LEAVE = 'ROOM_LEAVE';
+
+var MSG_INCOME = exports.MSG_INCOME = 'MSG_INCOME';
+
+var SEND_MSG = exports.SEND_MSG = 'SEND_MSG';
+
+var GO_TO_ROOM = exports.GO_TO_ROOM = 'GO_TO_ROOM';
 
 /***/ }),
 
@@ -376,7 +442,37 @@ function ioReducers() {
       {
         state = Object.assign({}, state, { Page_State: { connected: true } });
         break;
-      }
+      };
+    case ioConstants.MESSAGE_FROM_SERVER:
+      {
+        console.log(action.payload);
+        break;
+      };
+    case ioConstants.ROOM_MEET:
+      {
+        console.log(action.payload);
+        break;
+      };
+    case ioConstants.ROOM_LEAVE:
+      {
+        console.log(action.payload);
+        break;
+      };
+    case ioConstants.MSG_INCOME:
+      {
+        console.log(action.payload);
+        break;
+      };
+    case ioConstants.SEND_MSG:
+      {
+        console.log(action.payload);
+        break;
+      };
+    case ioConstants.GO_TO_ROOM:
+      {
+        console.log(action.payload);
+        break;
+      };
   }
   return state;
 }
