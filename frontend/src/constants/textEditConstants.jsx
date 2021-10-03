@@ -1,1 +1,1 @@
-export const NICKNAME_EDITE = 'NICKNAME_EDITE';
+export const NICKNAME_EDIT = 'NICKNAME_EDIT';
