@@ -30,23 +30,31 @@ class Page extends React.Component{
     socket = io('http://localhost:80', {query:{room}});
     socket.emit('sendNickName', nickName);
     socket.on('message', function(data){
+      console.log(data.msg);
+      console.log(data.roomPpl);
+    })
+    socket.on('roomMeet', function(data){
+      console.log(data);
+    })
+    socket.on('roomLeave', function(data){
+      console.log(data);
+    });
+    socket.on('haveMsg', function(data){
       console.log(data);
     })
     this.props.dispatch(ioActions.connectToChat());
   }
   sendMsg(){
-    let nickName = this.props.nickName;
-    socket.emit('sendMsg', {nickName: nickName, msg:'Hello everyOne!'});
-    socket.on('haveMsg', function(data){
-      console.log(data);
-    })
+    socket.emit('sendMsg', {nickName: this.props.nickName, msg:'Hello everyOne!'});
     }
-    doWithoutGotoLink(event){
-      console.log('nonononon'); 
-      //На чем я погорел на собеседовании =///
-      event.preventDefault();  
-      return false;
-    }
+  doWithoutGotoLink(event){
+    let urlPage = new URL(event.currentTarget.href);
+    let ur = new URLSearchParams(urlPage.search);
+    socket.emit('goToRoom', {room: ur.get('roomId'), nickName: this.props.nickName});
+    //На чем я погорел на собеседовании =///
+    event.preventDefault();  
+    return false;
+  }
   render(){
     if (this.props.connected){
       page = <div>
@@ -55,8 +63,9 @@ class Page extends React.Component{
         </div>
         <div>
           <p>Блок комнат</p>
-          <a id="myLink" title="Click to do something"
- href="http://localhost/room/?roomId=Parapapam" onClick={this.doWithoutGotoLink.bind(this)}>link text</a>
+          <a title="Гостевая комната" href="http://localhost/room/?roomId=guestRoom" onClick={this.doWithoutGotoLink.bind(this)}>Гостевая комната</a>
+          <a title="Комната 1" href="http://localhost/room/?roomId=room1" onClick={this.doWithoutGotoLink.bind(this)}>Комната 1</a>
+          <a title="Комната 2" href="http://localhost/room/?roomId=room2" onClick={this.doWithoutGotoLink.bind(this)}>Комната 2</a>
         </div>
         <div>
           <p>Блок с юзерами в комнате</p>

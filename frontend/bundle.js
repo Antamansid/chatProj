@@ -78,6 +78,16 @@ var Page = function (_React$Component) {
       socket = (0, _socket2.default)('http://localhost:80', { query: { room: room } });
       socket.emit('sendNickName', nickName);
       socket.on('message', function (data) {
+        console.log(data.msg);
+        console.log(data.roomPpl);
+      });
+      socket.on('roomMeet', function (data) {
+        console.log(data);
+      });
+      socket.on('roomLeave', function (data) {
+        console.log(data);
+      });
+      socket.on('haveMsg', function (data) {
         console.log(data);
       });
       this.props.dispatch(_ioActions2.default.connectToChat());
@@ -85,17 +95,16 @@ var Page = function (_React$Component) {
   }, {
     key: "sendMsg",
     value: function sendMsg() {
-      var nickName = this.props.nickName;
-      socket.emit('sendMsg', { nickName: nickName, msg: 'Hello everyOne!' });
-      socket.on('haveMsg', function (data) {
-        console.log(data);
-      });
+      socket.emit('sendMsg', { nickName: this.props.nickName, msg: 'Hello everyOne!' });
     }
   }, {
     key: "doWithoutGotoLink",
-    value: function doWithoutGotoLink(evt) {
-      console.log('nonononon');
-      evt.preventDefault();
+    value: function doWithoutGotoLink(event) {
+      var urlPage = new URL(event.currentTarget.href);
+      var ur = new URLSearchParams(urlPage.search);
+      socket.emit('goToRoom', { room: ur.get('roomId'), nickName: this.props.nickName });
+      //На чем я погорел на собеседовании =///
+      event.preventDefault();
       return false;
     }
   }, {
@@ -124,9 +133,18 @@ var Page = function (_React$Component) {
             ),
             _react2.default.createElement(
               "a",
-              { id: "myLink", title: "Click to do something",
-                href: "http://localhost/room/?roomId=Parapapam", onClick: this.doWithoutGotoLink.bind(this) },
-              "link text"
+              { title: "\u0413\u043E\u0441\u0442\u0435\u0432\u0430\u044F \u043A\u043E\u043C\u043D\u0430\u0442\u0430", href: "http://localhost/room/?roomId=guestRoom", onClick: this.doWithoutGotoLink.bind(this) },
+              "\u0413\u043E\u0441\u0442\u0435\u0432\u0430\u044F \u043A\u043E\u043C\u043D\u0430\u0442\u0430"
+            ),
+            _react2.default.createElement(
+              "a",
+              { title: "\u041A\u043E\u043C\u043D\u0430\u0442\u0430 1", href: "http://localhost/room/?roomId=room1", onClick: this.doWithoutGotoLink.bind(this) },
+              "\u041A\u043E\u043C\u043D\u0430\u0442\u0430 1"
+            ),
+            _react2.default.createElement(
+              "a",
+              { title: "\u041A\u043E\u043C\u043D\u0430\u0442\u0430 2", href: "http://localhost/room/?roomId=room2", onClick: this.doWithoutGotoLink.bind(this) },
+              "\u041A\u043E\u043C\u043D\u0430\u0442\u0430 2"
             )
           ),
           _react2.default.createElement(

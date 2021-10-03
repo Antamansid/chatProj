@@ -22,7 +22,7 @@ app.get('/room/*', function(req, res){
   res.sendFile(path.resolve(__dirname, '..', 'frontend', 'index.html'));
 });
 
-
+let rooms = {};
 
 io.on('connection', function(socket) {
   let room = 'guestRoom';
@@ -33,12 +33,37 @@ io.on('connection', function(socket) {
   console.log('A user connected');
   socket.join(room);
   socket.on('sendNickName', function(data){
-    io.sockets.in(room).emit('message', data+" connected to Room");
+    if(!Array.isArray(rooms[room])){
+      rooms[room]=[];
+    }
+    rooms[room].push(data);
+    io.sockets.in(room).emit('message', {msg: data+" connected to Room", roomPpl:rooms[room]});
   })
   socket.on('sendMsg', function(data){
-    io.sockets.in(room).emit('haveMsg', data.nickName+": " + data.msg + "in room " + room);
+    let time = (new Date).toLocaleTimeString();
+    io.sockets.in(room).emit('haveMsg', "["+time+"] "+data.nickName+": " + data.msg + "in room " + room);
   })
-
+  socket.on('goToRoom', function(data){
+    console.log('leaving' + room);
+    console.log('rooms[room]');
+    console.log(rooms[room]);
+    if(!Array.isArray(rooms[room])){
+      rooms[room]=[];
+      console.log('what?')
+    }
+    let delNickPos = rooms[room].indexOf(data.nickName)
+    rooms[room].splice(delNickPos, 1);
+    socket.leave(room);
+    io.sockets.in(room).emit('roomLeave', {roomPpl:rooms[room]});
+    room = data.room;
+    if(!Array.isArray(rooms[room])){
+      rooms[room]=[];
+    }
+    console.log('joing' + room);
+    socket.join(room);
+    rooms[room].push(data.nickName);
+    io.sockets.in(room).emit('roomMeet', {roomPpl:rooms[room]});
+  })
   socket.on('disconnect', function () {
      console.log('A user disconnected');
   });
