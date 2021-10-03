@@ -10,11 +10,9 @@ import GreetingsTitle from './Greetings/GreetingsTitle.jsx';
 import Hint from './Hint/Hint.jsx';
 import NickNameInput from './NickNameInput/NickNameInput.jsx';
 import ButtonConnectToServer from './ButtonConnectToServer/ButtonConnectToServer.jsx';
-import MsgBlock from './MsgBlock/MsgBlock.jsx';
 import UsersBlock from './UsersBlock/UsersBlock.jsx';
-import MsgInput from './MsgInput/MsgInput.jsx';
 import RoomsBlock from './RoomsBlock/RoomsBlock.jsx';
-import ButtonSendMsg from './ButtonSendMsg/ButtonSendMsg.jsx';
+import MsgBlockView from './MsgBlockView/MsgBlockView.jsx'
 
 let page;
 class Page extends React.Component{
@@ -25,9 +23,7 @@ class Page extends React.Component{
     if (this.props.connected){
       page = <div>
         <RoomsBlock/>
-        <MsgBlock/>
-        <MsgInput/>
-        <ButtonSendMsg/>
+        <MsgBlockView/>
         <UsersBlock/>
       </div>
     } else {

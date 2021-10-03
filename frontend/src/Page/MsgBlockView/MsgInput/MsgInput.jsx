@@ -1,9 +1,9 @@
 import React from "react";
 
 import {connect} from "react-redux";
-import store from '../../store/store.jsx';
+import store from '../../../store/store.jsx';
 
-import textEditActions from '../../actions/textEditActions.jsx';
+import textEditActions from '../../../actions/textEditActions.jsx';
 
 class MsgInput extends React.Component {
     constructor(props){

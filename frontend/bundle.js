@@ -91,90 +91,6 @@ exports["default"] = (0, _reactRedux.connect)(mapStateToProps)(ButtonConnectToSe
 
 /***/ }),
 
-/***/ "./frontend/src/Page/ButtonSendMsg/ButtonSendMsg.jsx":
-/*!***********************************************************!*\
-  !*** ./frontend/src/Page/ButtonSendMsg/ButtonSendMsg.jsx ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-    value: true
-}));
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var _store = __webpack_require__(/*! ../../store/store.jsx */ "./frontend/src/store/store.jsx");
-
-var _store2 = _interopRequireDefault(_store);
-
-var _ioActions = __webpack_require__(/*! ../../actions/ioActions.jsx */ "./frontend/src/actions/ioActions.jsx");
-
-var _ioActions2 = _interopRequireDefault(_ioActions);
-
-var _textEditActions = __webpack_require__(/*! ../../actions/textEditActions.jsx */ "./frontend/src/actions/textEditActions.jsx");
-
-var _textEditActions2 = _interopRequireDefault(_textEditActions);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ButtonSendMsg = function (_React$Component) {
-    _inherits(ButtonSendMsg, _React$Component);
-
-    function ButtonSendMsg(props) {
-        _classCallCheck(this, ButtonSendMsg);
-
-        return _possibleConstructorReturn(this, (ButtonSendMsg.__proto__ || Object.getPrototypeOf(ButtonSendMsg)).call(this, props));
-    }
-
-    _createClass(ButtonSendMsg, [{
-        key: "sendMsg",
-        value: function sendMsg() {
-            this.props.dispatch(_ioActions2.default.sendMsg(this.props.state.msg));
-            this.props.dispatch(_textEditActions2.default.clearMsgInput());
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                null,
-                _react2.default.createElement(
-                    "button",
-                    { onClick: this.sendMsg.bind(this) },
-                    "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435"
-                )
-            );
-        }
-    }]);
-
-    return ButtonSendMsg;
-}(_react2.default.Component);
-
-function mapStateToProps(store) {
-    return {
-        state: store.text.ButtonSendMsg_State
-    };
-}
-
-exports["default"] = (0, _reactRedux.connect)(mapStateToProps)(ButtonSendMsg);
-
-/***/ }),
-
 /***/ "./frontend/src/Page/Greetings/GreetingsTitle.jsx":
 /*!********************************************************!*\
   !*** ./frontend/src/Page/Greetings/GreetingsTitle.jsx ***!
@@ -291,10 +207,162 @@ exports["default"] = Hint;
 
 /***/ }),
 
-/***/ "./frontend/src/Page/MsgBlock/MsgBlock.jsx":
-/*!*************************************************!*\
-  !*** ./frontend/src/Page/MsgBlock/MsgBlock.jsx ***!
-  \*************************************************/
+/***/ "./frontend/src/Page/MsgBlockView/ButtonSendMsg/ButtonSendMsg.jsx":
+/*!************************************************************************!*\
+  !*** ./frontend/src/Page/MsgBlockView/ButtonSendMsg/ButtonSendMsg.jsx ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _store = __webpack_require__(/*! ../../../store/store.jsx */ "./frontend/src/store/store.jsx");
+
+var _store2 = _interopRequireDefault(_store);
+
+var _ioActions = __webpack_require__(/*! ../../../actions/ioActions.jsx */ "./frontend/src/actions/ioActions.jsx");
+
+var _ioActions2 = _interopRequireDefault(_ioActions);
+
+var _textEditActions = __webpack_require__(/*! ../../../actions/textEditActions.jsx */ "./frontend/src/actions/textEditActions.jsx");
+
+var _textEditActions2 = _interopRequireDefault(_textEditActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ButtonSendMsg = function (_React$Component) {
+    _inherits(ButtonSendMsg, _React$Component);
+
+    function ButtonSendMsg(props) {
+        _classCallCheck(this, ButtonSendMsg);
+
+        return _possibleConstructorReturn(this, (ButtonSendMsg.__proto__ || Object.getPrototypeOf(ButtonSendMsg)).call(this, props));
+    }
+
+    _createClass(ButtonSendMsg, [{
+        key: "sendMsg",
+        value: function sendMsg() {
+            this.props.dispatch(_ioActions2.default.sendMsg(this.props.state.msg));
+            this.props.dispatch(_textEditActions2.default.clearMsgInput());
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(
+                    "button",
+                    { onClick: this.sendMsg.bind(this) },
+                    "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435"
+                )
+            );
+        }
+    }]);
+
+    return ButtonSendMsg;
+}(_react2.default.Component);
+
+function mapStateToProps(store) {
+    return {
+        state: store.text.ButtonSendMsg_State
+    };
+}
+
+exports["default"] = (0, _reactRedux.connect)(mapStateToProps)(ButtonSendMsg);
+
+/***/ }),
+
+/***/ "./frontend/src/Page/MsgBlockView/MsgBlockView.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/src/Page/MsgBlockView/MsgBlockView.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _ButtonSendMsg = __webpack_require__(/*! ./ButtonSendMsg/ButtonSendMsg.jsx */ "./frontend/src/Page/MsgBlockView/ButtonSendMsg/ButtonSendMsg.jsx");
+
+var _ButtonSendMsg2 = _interopRequireDefault(_ButtonSendMsg);
+
+var _MsgInput = __webpack_require__(/*! ./MsgInput/MsgInput.jsx */ "./frontend/src/Page/MsgBlockView/MsgInput/MsgInput.jsx");
+
+var _MsgInput2 = _interopRequireDefault(_MsgInput);
+
+var _MsgBlock = __webpack_require__(/*! ./MsgBlock/MsgBlock.jsx */ "./frontend/src/Page/MsgBlockView/MsgBlock/MsgBlock.jsx");
+
+var _MsgBlock2 = _interopRequireDefault(_MsgBlock);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MsgBlockView = function (_React$Component) {
+  _inherits(MsgBlockView, _React$Component);
+
+  function MsgBlockView(props) {
+    _classCallCheck(this, MsgBlockView);
+
+    return _possibleConstructorReturn(this, (MsgBlockView.__proto__ || Object.getPrototypeOf(MsgBlockView)).call(this, props));
+  }
+
+  _createClass(MsgBlockView, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_MsgBlock2.default, null),
+        _react2.default.createElement(_MsgInput2.default, null),
+        _react2.default.createElement(_ButtonSendMsg2.default, null)
+      );
+    }
+  }]);
+
+  return MsgBlockView;
+}(_react2.default.Component);
+
+exports["default"] = MsgBlockView;
+
+/***/ }),
+
+/***/ "./frontend/src/Page/MsgBlockView/MsgBlock/MsgBlock.jsx":
+/*!**************************************************************!*\
+  !*** ./frontend/src/Page/MsgBlockView/MsgBlock/MsgBlock.jsx ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -312,11 +380,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var _store = __webpack_require__(/*! ../../store/store.jsx */ "./frontend/src/store/store.jsx");
+var _store = __webpack_require__(/*! ../../../store/store.jsx */ "./frontend/src/store/store.jsx");
 
 var _store2 = _interopRequireDefault(_store);
 
-var _ioActions = __webpack_require__(/*! ../../actions/ioActions.jsx */ "./frontend/src/actions/ioActions.jsx");
+var _ioActions = __webpack_require__(/*! ../../../actions/ioActions.jsx */ "./frontend/src/actions/ioActions.jsx");
 
 var _ioActions2 = _interopRequireDefault(_ioActions);
 
@@ -368,10 +436,10 @@ exports["default"] = (0, _reactRedux.connect)(mapStateToProps)(MsgBlock);
 
 /***/ }),
 
-/***/ "./frontend/src/Page/MsgInput/MsgInput.jsx":
-/*!*************************************************!*\
-  !*** ./frontend/src/Page/MsgInput/MsgInput.jsx ***!
-  \*************************************************/
+/***/ "./frontend/src/Page/MsgBlockView/MsgInput/MsgInput.jsx":
+/*!**************************************************************!*\
+  !*** ./frontend/src/Page/MsgBlockView/MsgInput/MsgInput.jsx ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -389,11 +457,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var _store = __webpack_require__(/*! ../../store/store.jsx */ "./frontend/src/store/store.jsx");
+var _store = __webpack_require__(/*! ../../../store/store.jsx */ "./frontend/src/store/store.jsx");
 
 var _store2 = _interopRequireDefault(_store);
 
-var _textEditActions = __webpack_require__(/*! ../../actions/textEditActions.jsx */ "./frontend/src/actions/textEditActions.jsx");
+var _textEditActions = __webpack_require__(/*! ../../../actions/textEditActions.jsx */ "./frontend/src/actions/textEditActions.jsx");
 
 var _textEditActions2 = _interopRequireDefault(_textEditActions);
 
@@ -573,25 +641,17 @@ var _ButtonConnectToServer = __webpack_require__(/*! ./ButtonConnectToServer/But
 
 var _ButtonConnectToServer2 = _interopRequireDefault(_ButtonConnectToServer);
 
-var _MsgBlock = __webpack_require__(/*! ./MsgBlock/MsgBlock.jsx */ "./frontend/src/Page/MsgBlock/MsgBlock.jsx");
-
-var _MsgBlock2 = _interopRequireDefault(_MsgBlock);
-
 var _UsersBlock = __webpack_require__(/*! ./UsersBlock/UsersBlock.jsx */ "./frontend/src/Page/UsersBlock/UsersBlock.jsx");
 
 var _UsersBlock2 = _interopRequireDefault(_UsersBlock);
-
-var _MsgInput = __webpack_require__(/*! ./MsgInput/MsgInput.jsx */ "./frontend/src/Page/MsgInput/MsgInput.jsx");
-
-var _MsgInput2 = _interopRequireDefault(_MsgInput);
 
 var _RoomsBlock = __webpack_require__(/*! ./RoomsBlock/RoomsBlock.jsx */ "./frontend/src/Page/RoomsBlock/RoomsBlock.jsx");
 
 var _RoomsBlock2 = _interopRequireDefault(_RoomsBlock);
 
-var _ButtonSendMsg = __webpack_require__(/*! ./ButtonSendMsg/ButtonSendMsg.jsx */ "./frontend/src/Page/ButtonSendMsg/ButtonSendMsg.jsx");
+var _MsgBlockView = __webpack_require__(/*! ./MsgBlockView/MsgBlockView.jsx */ "./frontend/src/Page/MsgBlockView/MsgBlockView.jsx");
 
-var _ButtonSendMsg2 = _interopRequireDefault(_ButtonSendMsg);
+var _MsgBlockView2 = _interopRequireDefault(_MsgBlockView);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -620,9 +680,7 @@ var Page = function (_React$Component) {
           "div",
           null,
           _react2.default.createElement(_RoomsBlock2.default, null),
-          _react2.default.createElement(_MsgBlock2.default, null),
-          _react2.default.createElement(_MsgInput2.default, null),
-          _react2.default.createElement(_ButtonSendMsg2.default, null),
+          _react2.default.createElement(_MsgBlockView2.default, null),
           _react2.default.createElement(_UsersBlock2.default, null)
         );
       } else {
@@ -1192,7 +1250,6 @@ function ioReducers() {
           MsgBlock_State: { msgs: msgs },
           UsersBlock_State: { users: users }
         });
-        console.log(action.payload);
         break;
       };
     case ioConstants.ROOM_MEET:
@@ -1201,7 +1258,6 @@ function ioReducers() {
         state = Object.assign({}, state, {
           UsersBlock_State: { users: _users }
         });
-        console.log(action.payload);
         break;
       };
     case ioConstants.ROOM_LEAVE:
@@ -1210,7 +1266,6 @@ function ioReducers() {
         state = Object.assign({}, state, {
           UsersBlock_State: { users: _users2 }
         });
-        console.log(action.payload);
         break;
       };
     case ioConstants.MSG_INCOME:
@@ -1220,12 +1275,10 @@ function ioReducers() {
         state = Object.assign({}, state, {
           MsgBlock_State: { msgs: _msgs }
         });
-        console.log(action.payload);
         break;
       };
     case ioConstants.SEND_MSG:
       {
-        console.log(action.payload);
         break;
       };
     case ioConstants.GO_TO_ROOM:
@@ -1233,7 +1286,6 @@ function ioReducers() {
         state = Object.assign({}, state, {
           MsgBlock_State: { msgs: [] }
         });
-        console.log(action.payload);
         break;
       };
   }

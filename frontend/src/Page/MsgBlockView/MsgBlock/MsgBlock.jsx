@@ -1,9 +1,9 @@
 import React from "react";
 
 import {connect} from "react-redux";
-import store from '../../store/store.jsx';
+import store from '../../../store/store.jsx';
 
-import ioActions from '../../actions/ioActions.jsx'
+import ioActions from '../../../actions/ioActions.jsx'
 
 class MsgBlock extends React.Component {
     constructor(props){
