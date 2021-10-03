@@ -75,8 +75,8 @@ var Page = function (_React$Component) {
         room = ur.get('roomId');
       }
       console.log(ur.get('roomId'));
-      socket = (0, _socket2.default)('http://localhost:80', { query: { room: room } });
-      socket.emit('sendNickName', nickName);
+      socket = (0, _socket2.default)('http://localhost:80', { query: { room: room, nickName: nickName } });
+      //socket.emit('sendNickName', nickName);
       socket.on('message', function (data) {
         console.log(data.msg);
         console.log(data.roomPpl);

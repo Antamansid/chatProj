@@ -27,8 +27,8 @@ class Page extends React.Component{
       room = ur.get('roomId');
     }
     console.log(ur.get('roomId'));
-    socket = io('http://localhost:80', {query:{room}});
-    socket.emit('sendNickName', nickName);
+    socket = io('http://localhost:80', {query:{room, nickName}});
+    //socket.emit('sendNickName', nickName);
     socket.on('message', function(data){
       console.log(data.msg);
       console.log(data.roomPpl);
