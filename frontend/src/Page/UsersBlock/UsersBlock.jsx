@@ -3,7 +3,9 @@ import React from "react";
 import {connect} from "react-redux";
 import store from '../../store/store.jsx';
 
-import ioActions from '../../actions/ioActions.jsx'
+import ioActions from '../../actions/ioActions.jsx';
+
+import styles from './style.css';
 
 class UsersBlock extends React.Component {
     constructor(props){
@@ -11,9 +13,9 @@ class UsersBlock extends React.Component {
     }
     render() {
       let users = this.props.state.users.map((user, index)=>{
-        return <p key = {index}>{user}</p>
+        return <p className = {styles.pBlock} key = {index}>{user}</p>
       })
-      return <div>
+      return <div className = {styles.mainBlock}>
         {users}
       </div>;
     }

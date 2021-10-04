@@ -14,14 +14,17 @@ import UsersBlock from './UsersBlock/UsersBlock.jsx';
 import RoomsBlock from './RoomsBlock/RoomsBlock.jsx';
 import MsgBlockView from './MsgBlockView/MsgBlockView.jsx'
 
+import styles from './style.css';
+
 let page;
 class Page extends React.Component{
   constructor(props){
     super(props)
   }
   render(){
+    console.log(styles);
     if (this.props.connected){
-      page = <div>
+      page = <div className = {styles.makeGrid}>
         <RoomsBlock/>
         <MsgBlockView/>
         <UsersBlock/>

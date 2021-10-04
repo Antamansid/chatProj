@@ -1,0 +1,5 @@
+.style{
+  display: grid;
+  grid-template-rows: 9fr 2fr 1fr;
+  border: 1px solid black;
+}

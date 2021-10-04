@@ -7,6 +7,8 @@ import ioActions from '../../../actions/ioActions.jsx'
 
 import textEditActions from '../../../actions/textEditActions.jsx'
 
+import styles from './style.css';
+
 class ButtonSendMsg extends React.Component {
     constructor(props){
         super(props);
@@ -17,7 +19,7 @@ class ButtonSendMsg extends React.Component {
       }
     render() {
         return <div>
-          <button onClick={this.sendMsg.bind(this)}>Отправить сообщение</button>
+          <button className = {styles.style} onClick={this.sendMsg.bind(this)}>Отправить сообщение</button>
         </div>
     }
 }

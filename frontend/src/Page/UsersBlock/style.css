@@ -1,0 +1,8 @@
+.mainBlock{  
+  border: 1px solid black;
+}
+.pBlock{
+  margin: 0;
+  text-align: center;
+  border: 1px solid black;
+}

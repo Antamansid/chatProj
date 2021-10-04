@@ -5,6 +5,8 @@ import store from '../../../store/store.jsx';
 
 import ioActions from '../../../actions/ioActions.jsx'
 
+import styles from './style.css'
+
 class Room extends React.Component {
     constructor(props){
         super(props);
@@ -19,8 +21,8 @@ class Room extends React.Component {
       return false;
     }
     render() {
-        return <div>
-          <a title={this.props.title} href={this.props.href} onClick={this.doWithoutGotoLink.bind(this)}>{this.props.title}</a>
+        return <div className = {styles.roomDiv}>
+          <a className = {styles.room} title={this.props.title} href={this.props.href} onClick={this.doWithoutGotoLink.bind(this)}>{this.props.title}</a>
         </div>
     }
 }

@@ -5,6 +5,8 @@ import store from '../../../store/store.jsx';
 
 import textEditActions from '../../../actions/textEditActions.jsx';
 
+import styles from './style.css';
+
 class MsgInput extends React.Component {
     constructor(props){
         super(props);
@@ -15,6 +17,7 @@ class MsgInput extends React.Component {
     render() {
         return <div>
           <input type="text" 
+          className = {styles.style}
           placeholder = "Сюда текст сообщения"
           onChange = {this.changeMsg.bind(this)} 
           value = {this.props.state.msg || ''}/>

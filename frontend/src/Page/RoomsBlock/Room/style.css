@@ -1,0 +1,10 @@
+.roomDiv{  
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.room{
+  padding: 15px;
+  background-color: lightgoldenrodyellow;
+  border: 1px solid black;
+}

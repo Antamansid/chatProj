@@ -5,7 +5,9 @@ import store from '../../store/store.jsx';
 
 import ioActions from '../../actions/ioActions.jsx';
 
-import Room from './Room/Room.jsx'
+import Room from './Room/Room.jsx';
+
+import styles from './style.css'
 
 //массив комнат
 //можно сделать рандом или создавать - задел на будущее
@@ -31,8 +33,7 @@ class RoomsBlock extends React.Component {
       let rooms = roomMassive.map((room, index)=>{
         return <Room title = {room.title} href = {room.href} key = {index}/>
       })
-        return <div>
-          <p>Блок комнат</p>
+        return <div className = {styles.style}>
           {rooms}
         </div>
     }

@@ -1,0 +1,5 @@
+.style{  
+  display: grid;
+  grid-auto-columns: auto;
+  border: 1px solid black;
+}
